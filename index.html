@@ -51,6 +51,27 @@
             letter-spacing: 0.6px;
         }
 
+        .deadline-info {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 12px;
+            background: rgba(165, 42, 42, 0.1);
+            border-radius: 8px;
+            border: 1px solid rgba(165, 42, 42, 0.3);
+        }
+
+        .deadline-text {
+            color: var(--dota-accent-light);
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+
+        .days-remaining {
+            color: var(--dota-gold);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
         .mode-select {
             display: flex;
             gap: 12px;
@@ -194,6 +215,28 @@
             font-family: 'Inter', 'Roboto Mono', monospace;
         }
 
+        .games-per-day-section {
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(200, 170, 110, 0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(200, 170, 110, 0.2);
+        }
+
+        .games-per-day-label {
+            font-size: 0.9rem;
+            color: var(--dota-gold);
+            margin-bottom: 6px;
+        }
+
+        .games-per-day {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dota-accent-light);
+            font-family: 'Inter', 'Roboto Mono', monospace;
+            transition: transform 0.15s ease, color 0.25s ease;
+        }
+
         table {
             margin: 20px auto 0 auto;
             border-spacing: 20px 14px;
@@ -223,6 +266,11 @@
     <div class="container">
         <h1>Quartero's Curios</h1>
         
+        <div class="deadline-info">
+            <div class="deadline-text">Event ends November 5, 2025 (PST)</div>
+            <div class="days-remaining" id="daysRemaining">- days remaining</div>
+        </div>
+        
         <div class="mode-select">
             <div id="modeNormal" class="mode-btn">Normal</div>
             <div id="modeTurbo" class="mode-btn active">Turbo</div>
@@ -245,6 +293,11 @@
         <div class="result-box">
             <div class="games-needed-label">Games Needed to Reach Level 100</div>
             <div class="games-needed" id="gamesNeeded">-</div>
+            
+            <div class="games-per-day-section">
+                <div class="games-per-day-label">Daily Games Required</div>
+                <div class="games-per-day" id="gamesPerDay">-</div>
+            </div>
             
             <table>
                 <tr>
@@ -276,6 +329,8 @@
         };
         let gameMode = "turbo";
 
+        const deadline = new Date('2025-11-05T23:59:59-08:00');
+
         const modeNormal = document.getElementById("modeNormal");
         const modeTurbo = document.getElementById("modeTurbo");
         const currentLevel = document.getElementById("currentLevel");
@@ -287,12 +342,22 @@
         const gamesNeededEl = document.getElementById("gamesNeeded");
         const expectedWinsEl = document.getElementById("expectedWins");
         const expectedLossesEl = document.getElementById("expectedLosses");
+        const daysRemainingEl = document.getElementById("daysRemaining");
+        const gamesPerDayEl = document.getElementById("gamesPerDay");
+        const gamesPerDayLabelEl = document.querySelector(".games-per-day-label");
 
         function clampInt(value, min, max) {
             let n = Math.floor(Number(value) || 0);
             if (n < min) n = min;
             if (n > max) n = max;
             return n;
+        }
+
+        function calculateDaysRemaining() {
+            const now = new Date();
+            const timeDiff = deadline.getTime() - now.getTime();
+            const daysRemaining = Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
+            return daysRemaining;
         }
 
         function updateValues(highlight = true) {
@@ -313,19 +378,34 @@
             const expectedWinsNum = gamesNeeded * wRate;
             const expectedLossesNum = gamesNeeded - expectedWinsNum;
             
+            const daysRemaining = calculateDaysRemaining();
+            const gamesPerDay = daysRemaining > 0 ? Math.ceil(gamesNeeded / daysRemaining) : 0;
+            
+            const gameModeName = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
+            gamesPerDayLabelEl.textContent = `Daily ${gameModeName} Games Required`;
+            
             remainingXPEl.textContent = remainingXP.toLocaleString();
             xpPerGameEl.textContent = xpPerGame.toFixed(2);
             gamesNeededEl.textContent = gamesNeeded;
             expectedWinsEl.textContent = expectedWinsNum.toFixed(2);
             expectedLossesEl.textContent = expectedLossesNum.toFixed(2);
+            daysRemainingEl.textContent = `${daysRemaining} days remaining`;
+            gamesPerDayEl.textContent = gamesPerDay;
             
             gamesNeededEl.style.transform = "scale(1.12)";
-            if (highlight) gamesNeededEl.style.color = "var(--dota-accent-light)";
+            gamesPerDayEl.style.transform = "scale(1.08)";
+            
+            if (highlight) {
+                gamesNeededEl.style.color = "var(--dota-accent-light)";
+                gamesPerDayEl.style.color = "var(--dota-gold)";
+            }
             
             setTimeout(() => {
                 gamesNeededEl.style.transform = "scale(1)";
+                gamesPerDayEl.style.transform = "scale(1)";
                 setTimeout(() => { 
-                    gamesNeededEl.style.color = "var(--dota-gold)"; 
+                    gamesNeededEl.style.color = "var(--dota-gold)";
+                    gamesPerDayEl.style.color = "var(--dota-accent-light)";
                 }, 180);
             }, 140);
         }
@@ -384,6 +464,12 @@
             
             el.addEventListener("wheel", (e) => e.preventDefault(), { passive: false });
         });
+
+        setInterval(() => {
+            const daysRemaining = calculateDaysRemaining();
+            daysRemainingEl.textContent = `${daysRemaining} days remaining`;
+            updateValues(false);
+        }, 1000);
 
         updateValues();
     </script>
