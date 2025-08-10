@@ -150,17 +150,34 @@
             color: var(--dota-gold);
         }
 
+        .winrate-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 4px;
+        }
+
         .winrate-badge {
             background: var(--dota-accent);
             color: #fff;
-            padding: 6px 12px;
+            padding: 6px 10px;
             border-radius: 8px;
             font-weight: 700;
             font-size: 1rem;
             box-shadow: 0 0 6px var(--dota-accent-light);
-            min-width: 90px;
-            text-align: center;
-            font-family: 'Inter', sans-serif;
+            text-align: right;
+            font-family: 'Inter', 'Roboto Mono', monospace;
+            border: none;
+            outline: none;
+            width: 80px;
+            min-width: unset;
+            max-width: 80px;
+            letter-spacing: 0.05em;
+        }
+
+        .winrate-badge:focus {
+            box-shadow: 0 0 12px var(--dota-accent-light);
+            background: var(--dota-accent-light);
         }
 
         input[type="range"] {
@@ -285,7 +302,11 @@
         <div class="winrate-section">
             <div class="winrate-display">
                 <div class="winrate-label">Winrate</div>
-                <div class="winrate-badge" id="winRateDisplay" contenteditable="true">50.00%</div>
+                <div class="winrate-right">
+                    <input type="number" id="winRateInput" class="winrate-badge"
+                           min="0" max="100" step="0.01" value="50.00">
+                    <span>%</span>
+                </div>
             </div>
             <input type="range" id="winRateSlider" min="0" max="1" step="0.0001" value="0.50" />
         </div>
@@ -336,7 +357,7 @@
         const currentLevel = document.getElementById("currentLevel");
         const currentXP = document.getElementById("currentXP");
         const winRateSlider = document.getElementById("winRateSlider");
-        const winRateDisplay = document.getElementById("winRateDisplay");
+        const winRateInput = document.getElementById("winRateInput");
         const remainingXPEl = document.getElementById("remainingXP");
         const xpPerGameEl = document.getElementById("xpPerGame");
         const gamesNeededEl = document.getElementById("gamesNeeded");
@@ -366,10 +387,9 @@
             
             if (Number(currentLevel.value) !== L) currentLevel.value = L;
             if (Number(currentXP.value) !== X) currentXP.value = X;
-            
-            const wRate = Number(winRateSlider.value);
-            winRateDisplay.textContent = (wRate * 100).toFixed(2) + "%";
-            
+
+            let wRate = Number(winRateSlider.value);
+
             const win = fixedXP[gameMode].win;
             const loss = fixedXP[gameMode].loss;
             const remainingXP = L >= maxLevel ? 0 : Math.max(0, (maxLevel - L) * xpPerLevel - X);
@@ -377,13 +397,13 @@
             const gamesNeeded = xpPerGame > 0 ? Math.ceil(remainingXP / xpPerGame) : 0;
             const expectedWinsNum = gamesNeeded * wRate;
             const expectedLossesNum = gamesNeeded - expectedWinsNum;
-            
+
             const daysRemaining = calculateDaysRemaining();
             const gamesPerDay = daysRemaining > 0 ? Math.ceil(gamesNeeded / daysRemaining) : 0;
-            
+
             const gameModeName = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
             gamesPerDayLabelEl.textContent = `Daily ${gameModeName} Games Required`;
-            
+
             remainingXPEl.textContent = remainingXP.toLocaleString();
             xpPerGameEl.textContent = xpPerGame.toFixed(2);
             gamesNeededEl.textContent = gamesNeeded;
@@ -391,10 +411,10 @@
             expectedLossesEl.textContent = expectedLossesNum.toFixed(2);
             daysRemainingEl.textContent = `${daysRemaining} days remaining`;
             gamesPerDayEl.textContent = gamesPerDay;
-            
+
             gamesNeededEl.style.transform = "scale(1.12)";
             gamesPerDayEl.style.transform = "scale(1.08)";
-            
+
             if (highlight) {
                 gamesNeededEl.style.color = "var(--dota-accent-light)";
                 gamesPerDayEl.style.color = "var(--dota-gold)";
@@ -420,11 +440,15 @@
         modeNormal.addEventListener("click", () => setGameMode("normal"));
         modeTurbo.addEventListener("click", () => setGameMode("turbo"));
 
-        winRateSlider.addEventListener("input", () => updateValues(false));
+        winRateSlider.addEventListener("input", () => {
+            let percent = (Number(winRateSlider.value) * 100).toFixed(2);
+            winRateInput.value = percent;
+            updateValues(false);
+        });
         winRateSlider.addEventListener("change", () => updateValues(true));
 
-        winRateDisplay.addEventListener("blur", () => {
-            let val = parseFloat(winRateDisplay.textContent.replace('%', ''));
+        winRateInput.addEventListener("input", () => {
+            let val = parseFloat(winRateInput.value);
             if (isNaN(val)) val = 0;
             if (val < 0) val = 0;
             if (val > 100) val = 100;
@@ -432,10 +456,20 @@
             updateValues(true);
         });
 
-        winRateDisplay.addEventListener("keydown", (e) => {
+        winRateInput.addEventListener("blur", () => {
+            let val = parseFloat(winRateInput.value);
+            if (isNaN(val)) val = 0;
+            if (val < 0) val = 0;
+            if (val > 100) val = 100;
+            winRateInput.value = val.toFixed(2);
+            winRateSlider.value = (val / 100).toFixed(4);
+            updateValues(true);
+        });
+
+        winRateInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
-                winRateDisplay.blur();
+                winRateInput.blur();
             }
         });
 
