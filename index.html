@@ -8,7 +8,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="https://www.dota2.com/favicon.ico">
     <link rel="alternate icon" href="https://www.dota2.com/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Inter:wght@300;400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
     <style>
         :root {
             --dota-bg: #0c0e0f;
@@ -19,12 +18,9 @@
             --dota-text: #e0e0e0;
             --dota-muted: #888;
         }
-
-        html,
-        body {
+        html, body {
             height: 100%;
         }
-
         body {
             background-color: var(--dota-bg);
             color: var(--dota-text);
@@ -32,7 +28,6 @@
             margin: 0;
             padding: 20px;
         }
-
         .container {
             max-width: 520px;
             margin: auto;
@@ -41,7 +36,6 @@
             border-radius: 14px;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
         }
-
         h1 {
             text-align: center;
             color: var(--dota-gold);
@@ -50,7 +44,6 @@
             font-family: 'Cinzel Decorative', serif;
             letter-spacing: 0.6px;
         }
-
         .deadline-info {
             text-align: center;
             margin-bottom: 20px;
@@ -59,26 +52,22 @@
             border-radius: 8px;
             border: 1px solid rgba(165, 42, 42, 0.3);
         }
-
         .deadline-text {
             color: var(--dota-accent-light);
             font-size: 0.9rem;
             margin-bottom: 4px;
         }
-
         .days-remaining {
             color: var(--dota-gold);
             font-weight: 700;
             font-size: 1.1rem;
         }
-
         .mode-select {
             display: flex;
             gap: 12px;
             justify-content: center;
             margin-bottom: 20px;
         }
-
         .mode-btn {
             flex: 1;
             padding: 12px;
@@ -92,18 +81,15 @@
             color: var(--dota-text);
             font-size: 1rem;
         }
-
         .mode-btn:hover {
             background: rgba(165, 42, 42, 0.12);
         }
-
         .mode-btn.active {
             background: var(--dota-accent);
             border-color: var(--dota-accent-light);
             color: #fff;
             box-shadow: 0 0 12px var(--dota-accent-light);
         }
-
         label {
             display: block;
             margin-top: 14px;
@@ -111,7 +97,6 @@
             font-size: 0.95rem;
             color: var(--dota-gold);
         }
-
         input[type="number"] {
             width: 100%;
             padding: 10px 12px;
@@ -124,39 +109,33 @@
             outline: 1px solid rgba(255, 255, 255, 0.02);
             font-family: 'Inter', 'Roboto Mono', monospace;
         }
-
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-
         .winrate-section {
             margin-top: 18px;
             padding: 12px;
             background: #111;
             border-radius: 8px;
         }
-
         .winrate-display {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 8px;
         }
-
         .winrate-label {
             font-size: 1rem;
             color: var(--dota-gold);
         }
-
         .winrate-right {
             display: flex;
             align-items: center;
             justify-content: flex-end;
             gap: 4px;
         }
-
         .winrate-badge {
             background: var(--dota-accent);
             color: #fff;
@@ -174,12 +153,10 @@
             max-width: 80px;
             letter-spacing: 0.05em;
         }
-
         .winrate-badge:focus {
             box-shadow: 0 0 12px var(--dota-accent-light);
             background: var(--dota-accent-light);
         }
-
         input[type="range"] {
             width: 100%;
             -webkit-appearance: none;
@@ -189,7 +166,6 @@
             outline: none;
             margin-top: 6px;
         }
-
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 18px;
@@ -200,7 +176,6 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
             border: 2px solid rgba(0, 0, 0, 0.3);
         }
-
         input[type="range"]::-moz-range-thumb {
             width: 18px;
             height: 18px;
@@ -209,7 +184,6 @@
             cursor: pointer;
             border: 2px solid rgba(0, 0, 0, 0.3);
         }
-
         .result-box {
             margin-top: 22px;
             padding: 18px;
@@ -217,12 +191,10 @@
             border-radius: 8px;
             text-align: center;
         }
-
         .games-needed-label {
             font-size: 1rem;
             color: var(--dota-gold);
         }
-
         .games-needed {
             font-size: 2.6rem;
             font-weight: 700;
@@ -231,7 +203,6 @@
             transition: transform 0.15s ease, color 0.25s ease;
             font-family: 'Inter', 'Roboto Mono', monospace;
         }
-
         .games-per-day-section {
             margin-top: 16px;
             padding: 14px;
@@ -239,13 +210,11 @@
             border-radius: 8px;
             border: 1px solid rgba(200, 170, 110, 0.2);
         }
-
         .games-per-day-label {
             font-size: 0.9rem;
             color: var(--dota-gold);
             margin-bottom: 6px;
         }
-
         .games-per-day {
             font-size: 1.8rem;
             font-weight: 700;
@@ -253,19 +222,16 @@
             font-family: 'Inter', 'Roboto Mono', monospace;
             transition: transform 0.15s ease, color 0.25s ease;
         }
-
         table {
             margin: 20px auto 0 auto;
             border-spacing: 20px 14px;
         }
-
         td.label {
             font-weight: 700;
             color: var(--dota-gold);
             text-align: right;
             padding-right: 6px;
         }
-
         td.value {
             font-family: 'Roboto Mono', monospace;
             font-weight: 500;
@@ -282,23 +248,18 @@
 <body>
     <div class="container">
         <h1>Quartero's Curios</h1>
-        
         <div class="deadline-info">
             <div class="deadline-text">Event ends November 5, 2025 (PST)</div>
             <div class="days-remaining" id="daysRemaining">- days remaining</div>
         </div>
-        
         <div class="mode-select">
             <div id="modeNormal" class="mode-btn">Normal</div>
             <div id="modeTurbo" class="mode-btn active">Turbo</div>
         </div>
-        
         <label for="currentLevel">Current Level</label>
         <input type="number" id="currentLevel" min="1" max="100" value="1" step="1" inputmode="numeric" pattern="[0-9]*" />
-        
         <label for="currentXP">Current XP</label>
         <input type="number" id="currentXP" min="0" max="999" value="0" step="1" inputmode="numeric" pattern="[0-9]*" />
-        
         <div class="winrate-section">
             <div class="winrate-display">
                 <div class="winrate-label">Winrate</div>
@@ -310,16 +271,13 @@
             </div>
             <input type="range" id="winRateSlider" min="0" max="1" step="0.0001" value="0.50" />
         </div>
-        
         <div class="result-box">
             <div class="games-needed-label">Games Needed to Reach Level 100</div>
             <div class="games-needed" id="gamesNeeded">-</div>
-            
             <div class="games-per-day-section">
                 <div class="games-per-day-label">Daily Games Required</div>
                 <div class="games-per-day" id="gamesPerDay">-</div>
             </div>
-            
             <table>
                 <tr>
                     <td class="label">Remaining XP</td>
@@ -340,7 +298,6 @@
             </table>
         </div>
     </div>
-
     <script>
         const xpPerLevel = 1000;
         const maxLevel = 100;
@@ -349,9 +306,7 @@
             turbo: { win: 425, loss: 175 }
         };
         let gameMode = "turbo";
-
         const deadline = new Date('2025-11-05T23:59:59-08:00');
-
         const modeNormal = document.getElementById("modeNormal");
         const modeTurbo = document.getElementById("modeTurbo");
         const currentLevel = document.getElementById("currentLevel");
@@ -367,29 +322,27 @@
         const gamesPerDayEl = document.getElementById("gamesPerDay");
         const gamesPerDayLabelEl = document.querySelector(".games-per-day-label");
 
+        let prevGamesNeeded = null;
+        let prevGamesPerDay = null;
+
         function clampInt(value, min, max) {
             let n = Math.floor(Number(value) || 0);
             if (n < min) n = min;
             if (n > max) n = max;
             return n;
         }
-
         function calculateDaysRemaining() {
             const now = new Date();
             const timeDiff = deadline.getTime() - now.getTime();
             const daysRemaining = Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
             return daysRemaining;
         }
-
         function updateValues(highlight = true) {
             const L = clampInt(currentLevel.value, 1, 100);
             const X = clampInt(currentXP.value, 0, 999);
-            
             if (Number(currentLevel.value) !== L) currentLevel.value = L;
             if (Number(currentXP.value) !== X) currentXP.value = X;
-
             let wRate = Number(winRateSlider.value);
-
             const win = fixedXP[gameMode].win;
             const loss = fixedXP[gameMode].loss;
             const remainingXP = L >= maxLevel ? 0 : Math.max(0, (maxLevel - L) * xpPerLevel - X);
@@ -397,56 +350,68 @@
             const gamesNeeded = xpPerGame > 0 ? Math.ceil(remainingXP / xpPerGame) : 0;
             const expectedWinsNum = gamesNeeded * wRate;
             const expectedLossesNum = gamesNeeded - expectedWinsNum;
-
             const daysRemaining = calculateDaysRemaining();
             const gamesPerDay = daysRemaining > 0 ? Math.ceil(gamesNeeded / daysRemaining) : 0;
-
             const gameModeName = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
             gamesPerDayLabelEl.textContent = `Daily ${gameModeName} Games Required`;
-
             remainingXPEl.textContent = remainingXP.toLocaleString();
             xpPerGameEl.textContent = xpPerGame.toFixed(2);
-            gamesNeededEl.textContent = gamesNeeded;
             expectedWinsEl.textContent = expectedWinsNum.toFixed(2);
             expectedLossesEl.textContent = expectedLossesNum.toFixed(2);
             daysRemainingEl.textContent = `${daysRemaining} days remaining`;
-            gamesPerDayEl.textContent = gamesPerDay;
 
-            gamesNeededEl.style.transform = "scale(1.12)";
-            gamesPerDayEl.style.transform = "scale(1.08)";
+            let animateGamesNeeded = (prevGamesNeeded !== null && prevGamesNeeded !== gamesNeeded);
+            let animateGamesPerDay = (prevGamesPerDay !== null && prevGamesPerDay !== gamesPerDay);
 
-            if (highlight) {
+            if (animateGamesNeeded) {
+                gamesNeededEl.textContent = gamesNeeded;
+                gamesNeededEl.style.transform = "scale(1.12)";
                 gamesNeededEl.style.color = "var(--dota-accent-light)";
-                gamesPerDayEl.style.color = "var(--dota-gold)";
-            }
-            
-            setTimeout(() => {
+                setTimeout(() => {
+                    gamesNeededEl.style.transform = "scale(1)";
+                    setTimeout(() => {
+                        gamesNeededEl.style.color = "var(--dota-gold)";
+                    }, 180);
+                }, 140);
+            } else {
+                gamesNeededEl.textContent = gamesNeeded;
                 gamesNeededEl.style.transform = "scale(1)";
-                gamesPerDayEl.style.transform = "scale(1)";
-                setTimeout(() => { 
-                    gamesNeededEl.style.color = "var(--dota-gold)";
-                    gamesPerDayEl.style.color = "var(--dota-accent-light)";
-                }, 180);
-            }, 140);
-        }
+                gamesNeededEl.style.color = "var(--dota-gold)";
+            }
 
+            if (animateGamesPerDay) {
+                gamesPerDayEl.textContent = gamesPerDay;
+                gamesPerDayEl.style.transform = "scale(1.08)";
+                gamesPerDayEl.style.color = "var(--dota-gold)";
+                setTimeout(() => {
+                    gamesPerDayEl.style.transform = "scale(1)";
+                    setTimeout(() => {
+                        gamesPerDayEl.style.color = "var(--dota-accent-light)";
+                    }, 180);
+                }, 140);
+            } else {
+                gamesPerDayEl.textContent = gamesPerDay;
+                gamesPerDayEl.style.transform = "scale(1)";
+                gamesPerDayEl.style.color = "var(--dota-accent-light)";
+            }
+
+            prevGamesNeeded = gamesNeeded;
+            prevGamesPerDay = gamesPerDay;
+        }
         function setGameMode(mode) {
             gameMode = mode;
             modeNormal.classList.toggle("active", mode === "normal");
             modeTurbo.classList.toggle("active", mode === "turbo");
             updateValues();
         }
-
         modeNormal.addEventListener("click", () => setGameMode("normal"));
         modeTurbo.addEventListener("click", () => setGameMode("turbo"));
-
         winRateSlider.addEventListener("input", () => {
             let percent = (Number(winRateSlider.value) * 100).toFixed(2);
             winRateInput.value = percent;
             updateValues(false);
         });
         winRateSlider.addEventListener("change", () => updateValues(true));
-
         winRateInput.addEventListener("input", () => {
             let val = parseFloat(winRateInput.value);
             if (isNaN(val)) val = 0;
@@ -455,7 +420,6 @@
             winRateSlider.value = (val / 100).toFixed(4);
             updateValues(true);
         });
-
         winRateInput.addEventListener("blur", () => {
             let val = parseFloat(winRateInput.value);
             if (isNaN(val)) val = 0;
@@ -465,28 +429,23 @@
             winRateSlider.value = (val / 100).toFixed(4);
             updateValues(true);
         });
-
         winRateInput.addEventListener("keydown", (e) => {
             if (e.key === "Enter") {
                 e.preventDefault();
                 winRateInput.blur();
             }
         });
-
         [currentLevel, currentXP].forEach(el => {
             el.addEventListener("input", () => {
                 const cleaned = el.value.replace(/[^\d-]/g, '');
                 if (cleaned !== el.value) el.value = cleaned;
-                
                 if (el === currentLevel) {
                     el.value = clampInt(el.value, 1, 100);
                 } else {
                     el.value = clampInt(el.value, 0, 999);
                 }
-                
                 updateValues(false);
             });
-            
             el.addEventListener("blur", () => {
                 if (el === currentLevel) {
                     el.value = clampInt(el.value, 1, 100);
@@ -495,16 +454,13 @@
                 }
                 updateValues(true);
             });
-            
             el.addEventListener("wheel", (e) => e.preventDefault(), { passive: false });
         });
-
         setInterval(() => {
             const daysRemaining = calculateDaysRemaining();
             daysRemainingEl.textContent = `${daysRemaining} days remaining`;
             updateValues(false);
         }, 1000);
-
         updateValues();
     </script>
 </body>
