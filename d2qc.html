@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quartero's Curios</title>
+    <link rel="icon" type="image/x-icon" href="https://www.dota2.com/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="https://www.dota2.com/favicon.ico">
+    <link rel="alternate icon" href="https://www.dota2.com/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Inter:wght@300;400;600&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --dota-bg: #0c0e0f;
+            --dota-panel: #1b1f23;
+            --dota-accent: #a52a2a;
+            --dota-accent-light: #d64d4d;
+            --dota-gold: #c8aa6e;
+            --dota-text: #e0e0e0;
+            --dota-muted: #888;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            background-color: var(--dota-bg);
+            color: var(--dota-text);
+            font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: auto;
+            background: var(--dota-panel);
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--dota-gold);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            font-family: 'Cinzel Decorative', serif;
+            letter-spacing: 0.6px;
+        }
+
+        .mode-select {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            border: 2px solid transparent;
+            transition: all 0.22s ease;
+            background: var(--dota-bg);
+            color: var(--dota-text);
+            font-size: 1rem;
+        }
+
+        .mode-btn:hover {
+            background: rgba(165, 42, 42, 0.12);
+        }
+
+        .mode-btn.active {
+            background: var(--dota-accent);
+            border-color: var(--dota-accent-light);
+            color: #fff;
+            box-shadow: 0 0 12px var(--dota-accent-light);
+        }
+
+        label {
+            display: block;
+            margin-top: 14px;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: var(--dota-gold);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: none;
+            border-radius: 8px;
+            background: #0f1112;
+            color: var(--dota-text);
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: 1px solid rgba(255, 255, 255, 0.02);
+            font-family: 'Inter', 'Roboto Mono', monospace;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .winrate-section {
+            margin-top: 18px;
+            padding: 12px;
+            background: #111;
+            border-radius: 8px;
+        }
+
+        .winrate-display {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .winrate-label {
+            font-size: 1rem;
+            color: var(--dota-gold);
+        }
+
+        .winrate-badge {
+            background: var(--dota-accent);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 0 6px var(--dota-accent-light);
+            min-width: 90px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 10px;
+            border-radius: 6px;
+            background: repeating-linear-gradient(to right, rgba(255, 255, 255, 0) 0 0.99%, rgba(255, 255, 255, 0.04) 0.99% 1%), linear-gradient(#222, #222);
+            outline: none;
+            margin-top: 6px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--dota-accent-light);
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--dota-accent-light);
+            cursor: pointer;
+            border: 2px solid rgba(0, 0, 0, 0.3);
+        }
+
+        .result-box {
+            margin-top: 22px;
+            padding: 18px;
+            background: #111;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .games-needed-label {
+            font-size: 1rem;
+            color: var(--dota-gold);
+        }
+
+        .games-needed {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--dota-gold);
+            margin: 12px 0;
+            transition: transform 0.15s ease, color 0.25s ease;
+            font-family: 'Inter', 'Roboto Mono', monospace;
+        }
+
+        table {
+            margin: 20px auto 0 auto;
+            border-spacing: 20px 14px;
+        }
+
+        td.label {
+            font-weight: 700;
+            color: var(--dota-gold);
+            text-align: right;
+            padding-right: 6px;
+        }
+
+        td.value {
+            font-family: 'Roboto Mono', monospace;
+            font-weight: 500;
+            letter-spacing: 0.6px;
+            color: var(--dota-text);
+            text-align: left;
+            min-width: 110px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quartero's Curios</h1>
+        
+        <div class="mode-select">
+            <div id="modeNormal" class="mode-btn">Normal</div>
+            <div id="modeTurbo" class="mode-btn active">Turbo</div>
+        </div>
+        
+        <label for="currentLevel">Current Level</label>
+        <input type="number" id="currentLevel" min="1" max="100" value="1" step="1" inputmode="numeric" pattern="[0-9]*" />
+        
+        <label for="currentXP">Current XP</label>
+        <input type="number" id="currentXP" min="0" max="999" value="0" step="1" inputmode="numeric" pattern="[0-9]*" />
+        
+        <div class="winrate-section">
+            <div class="winrate-display">
+                <div class="winrate-label">Winrate</div>
+                <div class="winrate-badge" id="winRateDisplay" contenteditable="true">50.00%</div>
+            </div>
+            <input type="range" id="winRateSlider" min="0" max="1" step="0.0001" value="0.50" />
+        </div>
+        
+        <div class="result-box">
+            <div class="games-needed-label">Games Needed to Reach Level 100</div>
+            <div class="games-needed" id="gamesNeeded">-</div>
+            
+            <table>
+                <tr>
+                    <td class="label">Remaining XP</td>
+                    <td class="value" id="remainingXP">-</td>
+                </tr>
+                <tr>
+                    <td class="label">Expected XP/Game</td>
+                    <td class="value" id="xpPerGame">-</td>
+                </tr>
+                <tr>
+                    <td class="label">Expected Wins</td>
+                    <td class="value" id="expectedWins">-</td>
+                </tr>
+                <tr>
+                    <td class="label">Expected Losses</td>
+                    <td class="value" id="expectedLosses">-</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const xpPerLevel = 1000;
+        const maxLevel = 100;
+        const fixedXP = {
+            normal: { win: 650, loss: 250 },
+            turbo: { win: 425, loss: 175 }
+        };
+        let gameMode = "turbo";
+
+        const modeNormal = document.getElementById("modeNormal");
+        const modeTurbo = document.getElementById("modeTurbo");
+        const currentLevel = document.getElementById("currentLevel");
+        const currentXP = document.getElementById("currentXP");
+        const winRateSlider = document.getElementById("winRateSlider");
+        const winRateDisplay = document.getElementById("winRateDisplay");
+        const remainingXPEl = document.getElementById("remainingXP");
+        const xpPerGameEl = document.getElementById("xpPerGame");
+        const gamesNeededEl = document.getElementById("gamesNeeded");
+        const expectedWinsEl = document.getElementById("expectedWins");
+        const expectedLossesEl = document.getElementById("expectedLosses");
+
+        function clampInt(value, min, max) {
+            let n = Math.floor(Number(value) || 0);
+            if (n < min) n = min;
+            if (n > max) n = max;
+            return n;
+        }
+
+        function updateValues(highlight = true) {
+            const L = clampInt(currentLevel.value, 1, 100);
+            const X = clampInt(currentXP.value, 0, 999);
+            
+            if (Number(currentLevel.value) !== L) currentLevel.value = L;
+            if (Number(currentXP.value) !== X) currentXP.value = X;
+            
+            const wRate = Number(winRateSlider.value);
+            winRateDisplay.textContent = (wRate * 100).toFixed(2) + "%";
+            
+            const win = fixedXP[gameMode].win;
+            const loss = fixedXP[gameMode].loss;
+            const remainingXP = L >= maxLevel ? 0 : Math.max(0, (maxLevel - L) * xpPerLevel - X);
+            const xpPerGame = wRate * win + (1 - wRate) * loss;
+            const gamesNeeded = xpPerGame > 0 ? Math.ceil(remainingXP / xpPerGame) : 0;
+            const expectedWinsNum = gamesNeeded * wRate;
+            const expectedLossesNum = gamesNeeded - expectedWinsNum;
+            
+            remainingXPEl.textContent = remainingXP.toLocaleString();
+            xpPerGameEl.textContent = xpPerGame.toFixed(2);
+            gamesNeededEl.textContent = gamesNeeded;
+            expectedWinsEl.textContent = expectedWinsNum.toFixed(2);
+            expectedLossesEl.textContent = expectedLossesNum.toFixed(2);
+            
+            gamesNeededEl.style.transform = "scale(1.12)";
+            if (highlight) gamesNeededEl.style.color = "var(--dota-accent-light)";
+            
+            setTimeout(() => {
+                gamesNeededEl.style.transform = "scale(1)";
+                setTimeout(() => { 
+                    gamesNeededEl.style.color = "var(--dota-gold)"; 
+                }, 180);
+            }, 140);
+        }
+
+        function setGameMode(mode) {
+            gameMode = mode;
+            modeNormal.classList.toggle("active", mode === "normal");
+            modeTurbo.classList.toggle("active", mode === "turbo");
+            updateValues();
+        }
+
+        modeNormal.addEventListener("click", () => setGameMode("normal"));
+        modeTurbo.addEventListener("click", () => setGameMode("turbo"));
+
+        winRateSlider.addEventListener("input", () => updateValues(false));
+        winRateSlider.addEventListener("change", () => updateValues(true));
+
+        winRateDisplay.addEventListener("blur", () => {
+            let val = parseFloat(winRateDisplay.textContent.replace('%', ''));
+            if (isNaN(val)) val = 0;
+            if (val < 0) val = 0;
+            if (val > 100) val = 100;
+            winRateSlider.value = (val / 100).toFixed(4);
+            updateValues(true);
+        });
+
+        winRateDisplay.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                winRateDisplay.blur();
+            }
+        });
+
+        [currentLevel, currentXP].forEach(el => {
+            el.addEventListener("input", () => {
+                const cleaned = el.value.replace(/[^\d-]/g, '');
+                if (cleaned !== el.value) el.value = cleaned;
+                
+                if (el === currentLevel) {
+                    el.value = clampInt(el.value, 1, 100);
+                } else {
+                    el.value = clampInt(el.value, 0, 999);
+                }
+                
+                updateValues(false);
+            });
+            
+            el.addEventListener("blur", () => {
+                if (el === currentLevel) {
+                    el.value = clampInt(el.value, 1, 100);
+                } else {
+                    el.value = clampInt(el.value, 0, 999);
+                }
+                updateValues(true);
+            });
+            
+            el.addEventListener("wheel", (e) => e.preventDefault(), { passive: false });
+        });
+
+        updateValues();
+    </script>
+</body>
+</html>
