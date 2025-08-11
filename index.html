@@ -44,6 +44,39 @@
             font-family: 'Cinzel Decorative', serif;
             letter-spacing: 0.6px;
         }
+        /* Countdown Styling */
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .countdown-segment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(200, 170, 110, 0.4);
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.3);
+            box-shadow: 0 0 8px rgba(200, 170, 110, 0.3);
+        }
+        .countdown-value {
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--dota-gold);
+            font-family: 'Roboto Mono', monospace;
+        }
+        .countdown-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--dota-accent-light);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
         .deadline-info {
             text-align: center;
             margin-bottom: 20px;
@@ -56,11 +89,6 @@
             color: var(--dota-accent-light);
             font-size: 0.9rem;
             margin-bottom: 4px;
-        }
-        .days-remaining {
-            color: var(--dota-gold);
-            font-weight: 700;
-            font-size: 1.1rem;
         }
         .mode-select {
             display: flex;
@@ -144,13 +172,13 @@
             font-weight: 700;
             font-size: 1rem;
             box-shadow: 0 0 6px var(--dota-accent-light);
-            text-align: right;
+            text-align: center;
             font-family: 'Inter', 'Roboto Mono', monospace;
             border: none;
             outline: none;
-            width: 80px;
+            width: 88px;
             min-width: unset;
-            max-width: 80px;
+            max-width: 88px;
             letter-spacing: 0.05em;
         }
         .winrate-badge:focus {
@@ -248,10 +276,18 @@
 <body>
     <div class="container">
         <h1>Quartero's Curios</h1>
+        
+        <div class="countdown-container" id="countdown">
+            <div class="countdown-segment"><div class="countdown-value" id="cd-days">-</div><div class="countdown-label">Days</div></div>
+            <div class="countdown-segment"><div class="countdown-value" id="cd-hours">-</div><div class="countdown-label">Hours</div></div>
+            <div class="countdown-segment"><div class="countdown-value" id="cd-minutes">-</div><div class="countdown-label">Minutes</div></div>
+            <div class="countdown-segment"><div class="countdown-value" id="cd-seconds">-</div><div class="countdown-label">Seconds</div></div>
+        </div>
+        
         <div class="deadline-info">
             <div class="deadline-text">Event ends November 5, 2025 (PST)</div>
-            <div class="days-remaining" id="daysRemaining">- days remaining</div>
         </div>
+        
         <div class="mode-select">
             <div id="modeNormal" class="mode-btn">Normal</div>
             <div id="modeTurbo" class="mode-btn active">Turbo</div>
@@ -306,7 +342,10 @@
             turbo: { win: 425, loss: 175 }
         };
         let gameMode = "turbo";
+        
+        // Use November 5, 2025 11:59:59 PM PST (Seattle time)
         const deadline = new Date('2025-11-05T23:59:59-08:00');
+        
         const modeNormal = document.getElementById("modeNormal");
         const modeTurbo = document.getElementById("modeTurbo");
         const currentLevel = document.getElementById("currentLevel");
@@ -318,9 +357,13 @@
         const gamesNeededEl = document.getElementById("gamesNeeded");
         const expectedWinsEl = document.getElementById("expectedWins");
         const expectedLossesEl = document.getElementById("expectedLosses");
-        const daysRemainingEl = document.getElementById("daysRemaining");
         const gamesPerDayEl = document.getElementById("gamesPerDay");
         const gamesPerDayLabelEl = document.querySelector(".games-per-day-label");
+
+        const cdDays = document.getElementById("cd-days");
+        const cdHours = document.getElementById("cd-hours");
+        const cdMinutes = document.getElementById("cd-minutes");
+        const cdSeconds = document.getElementById("cd-seconds");
 
         let prevGamesNeeded = null;
         let prevGamesPerDay = null;
@@ -331,12 +374,36 @@
             if (n > max) n = max;
             return n;
         }
+        
+        function getCountdownParts() {
+            const now = new Date();
+            let diff = deadline.getTime() - now.getTime();
+            if (diff < 0) diff = 0;
+            let totalSeconds = Math.floor(diff / 1000);
+            const days = Math.floor(totalSeconds / (3600 * 24));
+            totalSeconds %= 3600 * 24;
+            const hours = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+            totalSeconds %= 3600;
+            const minutes = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+            return { days, hours, minutes, seconds };
+        }
+
         function calculateDaysRemaining() {
             const now = new Date();
             const timeDiff = deadline.getTime() - now.getTime();
             const daysRemaining = Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
             return daysRemaining;
         }
+
+        function updateCountdownDisplay() {
+            const { days, hours, minutes, seconds } = getCountdownParts();
+            cdDays.textContent = days;
+            cdHours.textContent = hours;
+            cdMinutes.textContent = minutes;
+            cdSeconds.textContent = seconds;
+        }
+        
         function updateValues(highlight = true) {
             const L = clampInt(currentLevel.value, 1, 100);
             const X = clampInt(currentXP.value, 0, 999);
@@ -358,7 +425,6 @@
             xpPerGameEl.textContent = xpPerGame.toFixed(2);
             expectedWinsEl.textContent = expectedWinsNum.toFixed(2);
             expectedLossesEl.textContent = expectedLossesNum.toFixed(2);
-            daysRemainingEl.textContent = `${daysRemaining} days remaining`;
 
             let animateGamesNeeded = (prevGamesNeeded !== null && prevGamesNeeded !== gamesNeeded);
             let animateGamesPerDay = (prevGamesPerDay !== null && prevGamesPerDay !== gamesPerDay);
@@ -456,11 +522,13 @@
             });
             el.addEventListener("wheel", (e) => e.preventDefault(), { passive: false });
         });
+        
         setInterval(() => {
-            const daysRemaining = calculateDaysRemaining();
-            daysRemainingEl.textContent = `${daysRemaining} days remaining`;
+            updateCountdownDisplay();
             updateValues(false);
         }, 1000);
+        
+        updateCountdownDisplay();
         updateValues();
     </script>
 </body>
