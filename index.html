@@ -417,7 +417,7 @@
             const gamesNeeded = xpPerGame > 0 ? Math.ceil(remainingXP / xpPerGame) : 0;
             const expectedWinsNum = gamesNeeded * wRate;
             const expectedLossesNum = gamesNeeded - expectedWinsNum;
-            const daysRemaining = calculateDaysRemaining();
+            const daysRemaining = Number(cdDays.textContent) || 0;
             const gamesPerDay = daysRemaining > 0 ? Math.ceil(gamesNeeded / daysRemaining) : 0;
             const gameModeName = gameMode.charAt(0).toUpperCase() + gameMode.slice(1);
             gamesPerDayLabelEl.textContent = `Daily ${gameModeName} Games Required`;
